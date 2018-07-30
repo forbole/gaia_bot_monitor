@@ -14,7 +14,7 @@ db = MongoClient("mongodb+srv://<USERNAME>:<PASSWORD>@cluster0-2etvy.gcp.mongodb
 client = db.GaiaBotData
 collection = client.ValAddrID
 
-KEY="606247002:AAFn1i4I5QlevDMTP7gS22t1GpaBrUYku3s"
+KEY="695435732:AAEAIO3cJMy85jwF7pUtUKXCo9-BX5vAF-w"
 TIME="10"
 URL="https://api.telegram.org/bot" + KEY + "/sendMessage"
 
@@ -124,7 +124,7 @@ try:
                 # if there are chatids, send message by API
                 session = FuturesSession()
                 for id in chatids:
-                    session.get("https://api.telegram.org/bot606247002:AAFn1i4I5QlevDMTP7gS22t1GpaBrUYku3s/sendMessage?chat_id=" + id + "&text=" + msg)
+                    session.get(URL + "?chat_id=" + id + "&text=" + msg)
                 chatidset = set()
 
             startrow = client.Records.count()+1
