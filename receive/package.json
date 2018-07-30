@@ -1,0 +1,19 @@
+{
+  "name": "forbole_bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro-bot -e",
+    "dev": "nodemon --exec 'micro-bot -e '.env.dev''",
+    "deploy": "now rm $npm_package_name ; now"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "micro-bot": "^2.2.4",
+    "telegraf": "^3.21.2",
+    "util": "^0.11.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}
