@@ -24,7 +24,7 @@ j.seek_tail()
 # Important! - Discard old journal entries
 j.get_previous()
 j.log_level(journal.LOG_INFO)
-j.add_match(_SYSTEMD_UNIT="forboled.service")
+j.add_match(_SYSTEMD_UNIT="gaiad.service")
 
 chatidset = set()
 start = time.time()
