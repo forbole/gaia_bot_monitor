@@ -13,17 +13,18 @@ Available commands:
 
 /subscribe - subscribe a validator by its cosmosvaladdr</br>
 Usage: /subscribe </br>
-  --> then provide validator address
+  --> then provide validator address in hex
 </br>
 
 /mute - mute a validator with a specific type</br>
-Usage: /mute [cosmosvaladdr...] [absent|slashed|revoked]
+Usage: /mute [hexcosmosvaladdr...] [absent|slashed|revoked]
 </br>
 
 /unmute - unmute a validator with a specific type</br>
-Usage: /unmute [cosmosvaladdr...] [absent|slashed|revoked]
+Usage: /unmute [hexcosmosvaladdr...] [absent|slashed|revoked]
 </br>
 
+---deprecate---</br>
 /hack - convert a cosmosvaladdr to hex</br>
 Usage: /hack [cosmosvaladdr...]
 </br>
