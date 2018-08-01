@@ -79,7 +79,7 @@ try:
                 storejson = '{"validator\": "' + valaddr + '", "absent height\": "' + height + '", "uptime\": "' + str(uptime) + ' (' + signed + '/' + str(doubles) + 'signed)", \"slashing threshold\": "' + matchAbsent.group(4) + '/' + str(doubles) + '\"}'
 
                 # build send msg
-                sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + " signed)" + "\\nThreshold: " + matchAbsent.group(4) + "/" + str(doubles) + "\\nDate(mm-dd): " + date + "\\nTime: " + ttime
+                sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + " signed)" + "\\nThreshold: " + matchAbsent.group(6) + "/" + str(doubles) + "\\nDate(mm-dd): " + date + "\\nTime: " + ttime
 
                 # store valaddr and content into db
                 stringjson = '{"_id": ' + str(id) + ', "ValAddr\": "' + valaddr + '", "content": "' + msg + '", \"msgjson": ' + storejson + ', "type\": "' + 'absent' + '", "sendmsg": "' + sendmsg + '"}'
