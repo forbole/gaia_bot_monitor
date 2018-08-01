@@ -76,7 +76,7 @@ try:
                 uptime = int(signed)/(float(doubles))
 
                 # build json msg
-                storejson = '{"validator\": "' + valaddr + '", "absent height\": "' + height + '", "uptime\": "' + str(uptime) + ' (' + signed + '/' + str(doubles) + 'signed)", \"slashing threshold\": "' + matchAbsent.group(4) + '/' + str(doubles) + '\"}'
+                storejson = '{"validator\": "' + valaddr + '", "absent height\": "' + height + '", "uptime\": "' + str(uptime) + ' (' + signed + '/' + str(doubles) + 'signed)", \"slashing threshold\": "' + matchAbsent.group(6) + '/' + str(doubles) + '\"}'
 
                 # build send msg
                 sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + " signed)" + "\\nThreshold: " + matchAbsent.group(6) + "/" + str(doubles) + "\\nDate(mm-dd): " + date + "\\nTime: " + ttime
