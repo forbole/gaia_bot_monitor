@@ -11,7 +11,7 @@ import requests
 import time
 from requests_futures.sessions import FuturesSession
 
-db = MongoClient("mongodb+srv://<USERNAME>:<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData")
+db = MongoClient("mongodb+srv://<Username>:<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData")
 client = db.GaiaBotData
 collection = client.ValAddrID
 
@@ -77,7 +77,7 @@ try:
                 storejson = '{"validator\": "' + valaddr + '", "absent height\": "' + height + '", "uptime\": "' + str(uptime) + ' (' + signed + '/' + str(doubles) + 'signed)", \"slashing threshold\": "' + matchAbsent.group(4) + '/' + str(doubles) + '\"}'
 
                 # build send msg
-                sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + "signed)" + "\\nThreshold: " + matchAbsent.group(4) + "/" + str(doubles)
+                sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + " signed)" + "\\nThreshold: " + matchAbsent.group(4) + "/" + str(doubles)
                 print(sendmsg)
                 # store valaddr and content into db
                 stringjson = '{"_id": ' + str(id) + ', "ValAddr\": "' + valaddr + '", "content": "' + msg + '", \"msgjson": ' + storejson + ', "type\": "' + 'absent' + '", "sendmsg": "' + sendmsg + '"}'
