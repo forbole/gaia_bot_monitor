@@ -55,48 +55,54 @@ try:
   while True:
         for entry in j:
             # match Absent validator
-            matchAbsent = re.search(r'/.*Absent validator ([0-9A-F]{40}) at height ([0-9]{1,}), ([0-9]{1,}) signed, threshold ([0-9]{1,}) .*/' , str(entry))
+            matchAbsent = re.search(r'/.*I\[([0-9]{2}-[0-9]{2})\|([0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3})\] Absent validator ([0-9A-F]{40}) at height ([0-9]{1,}), ([0-9]{1,}) signed, threshold ([0-9]{1,}).*/' , str(entry))
             # match how many shares and tokens reduced
-            matchReduced = re.search(r'/.*Validator ([0-9A-F]{40}) slashed by slashFactor ([0-9]{1,}\/[0-9]{1,}), burned ([0-9]{1,}\/[0-9]{1,}) tokens.*/', str(entry))
+            matchReduced = re.search(r'/.*I\[([0-9]{2}-[0-9]{2})\|([0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3})\] Validator ([0-9A-F]{40}) slashed by slashFactor ([0-9]{1,}\/[0-9]{1,}), burned ([0-9]{1,}\/[0-9]{1,}) tokens.*/', str(entry))
             # match revoke
-            matchRevoke = re.search(r'/.*Validator ([0-9A-F]{40}) revoked.*/', str(entry))
+            matchRevoke = re.search(r'/.*I\[([0-9]{2}-[0-9]{2})\|([0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3})\] Validator ([0-9A-F]{40}) revoked.*/', str(entry))
 
             # get the message that will be send out
             msg = entry["MESSAGE"]
 
             if (matchAbsent):
                 # get valaddr...
-                valaddr = matchAbsent.group(1)
-                height = matchAbsent.group(2)
-                signed = matchAbsent.group(3)
+                date = matchAbsent.group(1)
+                ttime = matchAbsent.group(2)
+                valaddr = matchAbsent.group(3)
+                height = matchAbsent.group(4)
+                signed = matchAbsent.group(5)
                 id = client.Records.count() + 1
-                doubles = int(matchAbsent.group(4))*2
-                uptime = int(matchAbsent.group(3))/(float(doubles))
+                doubles = int(matchAbsent.group(6))*2
+                uptime = int(signed)/(float(doubles))
 
                 # build json msg
                 storejson = '{"validator\": "' + valaddr + '", "absent height\": "' + height + '", "uptime\": "' + str(uptime) + ' (' + signed + '/' + str(doubles) + 'signed)", \"slashing threshold\": "' + matchAbsent.group(4) + '/' + str(doubles) + '\"}'
 
                 # build send msg
-                sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + " signed)" + "\\nThreshold: " + matchAbsent.group(4) + "/" + str(doubles)
-                print(sendmsg)
+                sendmsg = "Type: Absent\\nValidator: " + valaddr + "\\nHeight: " + height + "\\nUptime: " + str(uptime) + " (" + signed + "/" + str(doubles) + " signed)" + "\\nThreshold: " + matchAbsent.group(4) + "/" + str(doubles) + "\\nDate(mm-dd): " + date + "\\nTime: " + ttime
+
                 # store valaddr and content into db
                 stringjson = '{"_id": ' + str(id) + ', "ValAddr\": "' + valaddr + '", "content": "' + msg + '", \"msgjson": ' + storejson + ', "type\": "' + 'absent' + '", "sendmsg": "' + sendmsg + '"}'
 
             elif (matchReduced):
                 id = client.Records.count() + 1
-                valaddr = matchReduced.group(1)
-                fraction = matchReduced.group(2)
-                burned = matchReduced.group(3)
+                date = matchAbsent.group(1)
+                ttime = matchAbsent.group(2)
+                valaddr = matchReduced.group(3)
+                fraction = matchReduced.group(4)
+                burned = matchReduced.group(5)
 
                 storejson = '{"ValAddr\": "' + valaddr + '", "fraction": "' + fraction + '", "burned": "' + burned + '"}'
-                sendmsg = "Type: Slashed\\nValidator: " + valaddr + "\\nSlash factor: " + fraction + "\\nBurned token: " + burned
+                sendmsg = "Type: Slashed\\nValidator: " + valaddr + "\\nSlash factor: " + fraction + "\\nBurned token: " + burned + "\\nDate(mm-dd): " + date + "\\nTime: " + ttime
                 stringjson = '{"_id": ' + str(id) + ', "ValAddr\": "' + valaddr + '\", "content": "' + msg + '\", "type": "slashed", "msgjson": ' + storejson + ', "sendmsg": "' + sendmsg + '"}'
 
             elif (matchRevoke):
                 id = client.Records.count() + 1
-                valaddr = matchRevoke.group(1)
+                date = matchAbsent.group(1)
+                ttime = matchAbsent.group(2)
+                valaddr = matchRevoke.group(3)
                 storejson = '{"ValAddr": \"' + valaddr + '"}'
-                sendmsg = "Type: Revoke\\nValidator: " + valaddr
+                sendmsg = "Type: Revoke\\nValidator: " + valaddr + "\\nDate(mm-dd): " + date + "\\nTime: " + ttime
                 stringjson = '{"_id": ' + str(id) + ', "ValAddr\": "' + valaddr + '\", "content": "' + msg + '\", "type": "revoked", "msgjson": '+ storejson + ', "sendmsg": "' + sendmsg + '"}'
 
             # store that record into db Records
