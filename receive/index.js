@@ -6,12 +6,13 @@ const exec = util.promisify(require('child_process').exec)
 
 const MongoClient = require('mongodb').MongoClient, test = require('assert');
 
-const uri = "mongodb+srv://<USERNAME>:<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData";
+const uri = "mongodb+srv://<Username>:<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData";
 
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 const hexcosvaladdrpattern = RegExp(/[0-9A-F]{40}/)
+const hexcosvaladdrpattern2 = RegExp(/[0-9A-F]{40}$/)
 
 bot.start((ctx) => ctx.reply('Welcome'))
 bot.help((ctx) => ctx.reply('This is a bot that will notify you when something happened in the Gaia chain. For more, goto https://github.com/forbole/gaia_bot_monitor'))
@@ -37,7 +38,7 @@ bot.command('/subscribe', async(ctx, next) => {
 
     if (typeof valaddr == 'undefined') {
         ctx.reply("Usage: /subscribe [hexvaladdress]")
-    } else if (hexcosvaladdrpattern.test(valaddr)) {
+    } else if (hexcosvaladdrpattern2.test(valaddr)) {
 
             valaddr = valaddr.replace(/\n/, '')
             MongoClient.connect(uri, function(err, client) {
@@ -79,10 +80,10 @@ bot.command('/unsubscribe', async(ctx, next) => {
     var text = ctx.message.text
     var texts = text.split(' ')
     valaddr = texts[1]
-    
+
     if (typeof valaddr == 'undefined') {
         ctx.reply("Usage: /unsubscribe [hexvaladdress]")
-    } else if (hexcosvaladdrpattern.test(valaddr)) {
+    } else if (hexcosvaladdrpattern2.test(valaddr)) {
 
         valaddr = valaddr.replace(/\n/, '')
         MongoClient.connect(uri, function(err, client) {
