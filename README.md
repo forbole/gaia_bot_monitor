@@ -33,6 +33,6 @@ Usage: /unmute [hexcosmosvaladdr...] [absent|slashed|revoked]
 Usage: /hack [cosmosvaladdr...]
 </br>
 
----comming up changes---</br>
+---coming up changes---</br>
 Usage: /subscribe [hexcosmosvaladdr...]</br>
 Usage: /unsubscribe [hexcosmosvaladdr...]</br>
