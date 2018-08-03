@@ -151,13 +151,20 @@ try:
                     session.get(URL + "?chat_id=" + id + "&text=" + sendmsg)
                 chatidset = set()
 
-            startrow = client.Records.count()+1
-            newvalue = '{"$set": {"last": ' + str(startrow) + '}}'
-            try:
-                client.keeper.update({"_id": 1}, json.loads(newvalue), upsert = False)
-            except:
-                print("bad update")
-                break
+                newvalue = '{"$set": {"last": ' + str(row+1) + '}}'
+                try:
+                    client.keeper.update({"_id": 1}, json.loads(newvalue), upsert = False)
+                except:
+                    print("bad update")
+                    break
+
+#            startrow = client.Records.count()+1
+#            newvalue = '{"$set": {"last": ' + str(startrow) + '}}'
+#            try:
+#                client.keeper.update({"_id": 1}, json.loads(newvalue), upsert = False)
+#            except:
+#                print("bad update")
+#                break
             start = time.time()
 
 
