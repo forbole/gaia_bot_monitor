@@ -1,6 +1,6 @@
 # bot_monitor
 
-### STATUS: RUNNING
+### STATUS: RUNNING :running:
 
 A Bot that monitor Gaia chain when something happened to a specific validator, and send alert through Telegram.
 It sends alert every 15 seconds, if there is something happened during that time.
