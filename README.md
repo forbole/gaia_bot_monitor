@@ -25,6 +25,6 @@ Usage: `/mute [hexcosmosvaladdr...] [absent|slashed|revoked]`
 `/unmute` - unmute a validator with a specific type</br>
 Usage: `/unmute [hexcosmosvaladdr...] [absent|slashed|revoked]`
 
----deprecate---
+#### Deprecated
 `/hack` - convert a cosmosvaladdr to hex</br>
 Usage: `/hack [cosmosvaladdr...]`
