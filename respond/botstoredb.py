@@ -11,7 +11,7 @@ import requests
 import time
 from requests_futures.sessions import FuturesSession
 
-db = MongoClient("mongodb+srv://<Username>:<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData")
+db = MongoClient("mongodb+srv://<Username>L<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData")
 client = db.GaiaBotData
 collection = client.ValAddrID
 
@@ -74,6 +74,9 @@ try:
                 id = client.Records.count() + 1
                 doubles = int(matchAbsent.group(6))*2
                 uptime = int(signed)/(float(doubles))
+                # when the height is less than the threshold
+                if(int(height) <= doubles):
+                    uptime = int(height)/float(doubles)
 
                 # build json msg
                 storejson = '{"validator\": "' + valaddr + '", "absent height\": "' + height + '", "uptime\": "' + str(uptime) + ' (' + signed + '/' + str(doubles) + 'signed)", \"slashing threshold\": "' + matchAbsent.group(6) + '/' + str(doubles) + '\"}'
