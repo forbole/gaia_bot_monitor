@@ -2,6 +2,7 @@
 from __future__ import division
 from systemd import journal
 import re
+import sys
 import pymongo
 from pymongo import MongoClient
 import json
@@ -11,7 +12,11 @@ import requests
 import time
 from requests_futures.sessions import FuturesSession
 
-db = MongoClient("mongodb+srv://<Username>L<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData")
+db_info = sys.argv[1]
+print(db_info)
+loginData = "mongodb+srv://" + db_info + "@cluster0-2etvy.gcp.mongodb.net/GaiaBotData"
+print(loginData)
+db = MongoClient(loginData)
 client = db.GaiaBotData
 collection = client.ValAddrID
 
@@ -53,6 +58,7 @@ if (not "Records" in db["GaiaBotData"].collection_names()):
 
 try:
   while True:
+        instart = time.time()
         for entry in j:
             # match Absent validator
             matchAbsent = re.search(r'/.*I\[([0-9]{2}-[0-9]{2})\|([0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3})\] Absent validator ([0-9A-F]{40}) at height ([0-9]{1,}), ([0-9]{1,}) signed, threshold ([0-9]{1,}).*/' , str(entry))
@@ -112,10 +118,14 @@ try:
             if (matchAbsent or matchReduced or matchRevoke):
                 data = json.loads(stringjson)
                 client.Records.insert_one(data)
+            inend = time.time()
+            if (inend - instart > 30):
+                break
 
         end = time.time()
         # send msg every 15 seconds (from keeper.last to current record_id)
         if (end - start > 15):
+            instart2 = time.time()
             # get the last height in collection keeper
             startrow = client.keeper.find_one({"_id": 1}).get("last")
             print("startrow: " + str(startrow) + '\n')
@@ -160,6 +170,9 @@ try:
                 except:
                     print("bad update")
                     break
+                inend2 = time.time()
+                if(inend2 - instart2 > 30):
+                    break
 
 #            startrow = client.Records.count()+1
 #            newvalue = '{"$set": {"last": ' + str(startrow) + '}}'
@@ -169,6 +182,7 @@ try:
 #                print("bad update")
 #                break
             start = time.time()
+            instart = time.time()
 
 
 
