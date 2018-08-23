@@ -1,7 +1,7 @@
-# bot_monitor
+# gaia_bot_monitor
 
-### STATUS: STOP :no_entry:  (maintenance)
-
+### STATUS: RUNNING :running::running::running:
+#### CURRENT TESTNET: gaia-8001
 A Bot that monitor Gaia chain when something happened to a specific validator, and send alert through Telegram.
 It sends alert every 15 seconds, if there is something happened during that time.
 
