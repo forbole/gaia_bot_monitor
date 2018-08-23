@@ -6,7 +6,8 @@ const exec = util.promisify(require('child_process').exec)
 
 const MongoClient = require('mongodb').MongoClient, test = require('assert');
 
-const uri = "mongodb+srv://<Username>:<PASSWORD>@cluster0-2etvy.gcp.mongodb.net/GaiaBotData";
+const DB_INFO = process.env.DB_INFO
+const uri = "mongodb+srv://" + DB_INFO +"@cluster0-2etvy.gcp.mongodb.net/GaiaBotData";
 
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
