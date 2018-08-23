@@ -171,7 +171,7 @@ try:
                     print("bad update")
                     break
                 inend2 = time.time()
-                if(inend2 - instart2 > 30):
+                if(inend2 - instart2 > 60):
                     break
 
 #            startrow = client.Records.count()+1
